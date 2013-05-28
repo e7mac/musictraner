@@ -1,0 +1,27 @@
+table
+{
+width:100%;
+border-collapse:collapse;
+}
+.table-container td,  th
+{
+font-size:1em;
+padding:10px 5px 5px 5px;
+text-align: center;
+}
+.table-container th
+{
+font-size:1.2em;
+text-align:center;
+padding-top:5px;
+padding-bottom:5px;
+background-color: #633D0A;
+}
+.table-container tr.even td
+{
+background-color:#ffffcc;
+}
+.table-container th a
+{
+color: white;
+}

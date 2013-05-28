@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+{% load staticfiles %}
+{% load url from future %}
+
+<html>
+	<head>
+        <meta name="keywords" content="" />
+        <meta name="description" content="" />
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+		<title>musictraner / {% block title %}{% endblock %}</title>
+
+
+        <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+
+		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+        <link href="http://fonts.googleapis.com/css?family=Arvo" rel="stylesheet" type="text/css" />
+        <link href="{% static "css/style.css" %}" rel="stylesheet" type="text/css" media="screen" />
+        
+		{% block external %}{% endblock %}        
+        <!--START: Google Analytics Code-->
+        <script type="text/javascript">
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-33185860-1']);
+            _gaq.push(['_trackPageview']);
+            
+            (function() {
+             var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+             ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+             var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+             })();
+        </script>
+        <!--END: Google Analytics Code-->
+        
+        
+	</head>
+	<body>
+        
+        
+        <div id="wrapper">
+            <div id="header">
+                <div id="logo">
+                    <h1><a href="#">musictraner</a>/<span>
+                        {% if request.user.username %}
+                            {{request.user.username}}
+                        {% else %}
+                            <a href="/accounts/login/">login</a>
+                        {% endif %}
+                </div>
+            </div>
+            <!-- end #header -->
+            <div id="menu">
+                <ul>
+                    <li {% if section == "Home" %}class="current_page_item"{% endif %}><a href="/">Home</a></li>
+                    {% if request.user.username %}
+                    
+                    <li {% if section == "Tune" %}class="current_page_item"{% endif %}><a href="{% url 'tunes-list' request.user.username %}">Tunes</a></li>
+                    <li {% if section == "Concept" %}class="current_page_item"{% endif %}><a href="{% url 'concepts-list' request.user.username %}">Concepts</a></li>
+                    <li {% if section == "Resource" %}class="current_page_item"{% endif %}><a href="{% url 'resources-list' request.user.username %}">Resources</a></li>
+                    
+                    {% else %}
+                    <li><a href="/accounts/register/">Register</a></li>
+                    {% endif %}
+                    
+<!--                    <li {% if section == "Links" %}class="current_page_item"{% endif %}><a href="/links/">Links</a></li>
+                    <li {% if section == "Contact" %}class="current_page_item"{% endif %}><a href="/contact/">Contact</a></li>
+-->  
+                    {% if request.user.username %}                    
+                    <li><a href="/accounts/logout/">Logout</a></li>
+                    {% endif %}
+                    
+                </ul>
+            </div>
+            <!-- end #menu -->
+            
+            <div id="page">
+                {% block content %} {% endblock %}
+            </div>
+            <div id="about">
+                <h2 class="title">musictraner - <a href="mailto:musictraner-feedback@mayanksanganeria.com">feedback</a></h2>
+                <h3>
+                    to try the service out try username: demo, password: demo
+                    <br/>try clicking on song titles/links/files etc to see how everything connects. The demo content is for demonstrational purposes only - please use material that you own if you register and start using this service
+                
+                </h3>
+                <p>
+                    please send feedback / feature requests / complaints to the above email address and i'll get on it right away
+                </p>
+            </div>
+        </div>
+        <div id="footer">
+            <p>Copyright (c) 2012 <a href="http://www.e7mac.com">Mayank Sanganeria</a>. All rights reserved. Design by <a href="http://www.freecsstemplates.org">FCT</a>. BG photo by <a href="http://fotogrph.com/">fotogrph</a>.</p>
+        </div>
+
+        
+        
+     </body>
+</html>

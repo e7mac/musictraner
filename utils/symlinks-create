@@ -1,0 +1,3 @@
+sudo ln -fs /home/ubuntu/web/musictraner/server-config/musictraner_nginx.conf /etc/nginx/sites-enabled/
+sudo ln -fs /home/ubuntu/web/musictraner/server-config/musictraner_uwsgi.ini /etc/uwsgi/vassals/
+sudo ln -fs /home/ubuntu/web/musictraner/server-config/musictraner_daemon.conf /etc/init/

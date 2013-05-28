@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block external %}
+
+{% endblock %}
+
+{% block title %}List{% endblock %}
+
+{% block content %}
+<script>
+    $(document).ready(function() {
+                      $('#id_date').datepicker({
+                                               dateFormat: 'yy-mm-dd',
+                                               changeMonth: true,
+                                               changeYear: true,
+                                               
+                                               onClose: function(dateText, inst) {
+                                               var endDateTextBox = $('#id_end');
+                                               if (endDateTextBox.val() != '') {
+                                               var testStartDate = new Date(dateText);
+                                               var testEndDate = new Date(endDateTextBox.val());
+                                               if (testStartDate > testEndDate)
+                                               endDateTextBox.val(dateText);
+                                               }
+                                               else {
+                                               endDateTextBox.val(dateText);
+                                               }
+                                               },
+                                               onSelect: function (selectedDateTime){
+                                               var start = $(this).datepicker('getDate');
+                                               $('#id_end').datepicker('option', 'minDate', new Date(start.getTime()));
+                                               }
+                                               });
+                      });
+</script>
+
+
+<div class="post">
+    <h2 class="title">Add {{section}}</h2>
+        <form action="." method="post" enctype="multipart/form-data">{% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Submit" />
+        </form>
+</div>
+{% endblock %}
+
+

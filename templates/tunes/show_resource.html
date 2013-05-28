@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% load url from future %}
+
+{% block external %}
+{% endblock %}
+
+{% block title %}{{tune.title}}{% endblock %}
+
+{% block content %}
+
+<div class="post">
+    <h2 class="title">{{resource.title}}</h2>
+    <p>
+        {% if resource.date %}
+            {{resource.date}} /
+        {% endif %}
+        {% if resource.tempo %}
+            {{resource.tempo}}
+        {% endif %}
+    </p>
+    <p>
+        {{resource.notes}}
+        <br/>
+        <a href="{% url 'resources-edit' request.user.username resource.id %}">Edit</a> | <a href="{% url 'resources-remove' request.user.username resource.id %}">Remove</a>
+        <br/>
+    </p>
+    <p>
+    
+        {{resource.tune}}</br>
+        {{resource.concept}}</br>
+
+        {% if resource.link %}    
+            <a href="{{resource.link}}">Link</a>
+        {% endif %}    
+
+        {% if resource.file %}    
+            <a href="{{resource.file}}">Download File</a>
+        {% endif %}    
+    </p>
+    <p>
+        {% if type == "img" %}
+            <img src="{{resource.file}}" align="center">
+        {% elif type == "pdf" %}
+            <embed src="{{resource.file}}" width="90%" height="80%" align="center">
+        {% elif type == "mp3" or type == "aac" or type == "ogg" %}
+            <audio src="{{resource.file}}" controls="yes">
+        {% elif type == "mp4" or type == "avi" %}
+            <video src="{{resource.file}}" controls="yes">
+        {% endif %}
+                    
+    </p>
+    
+            
+            
+</div>
+{% endblock %}
+
+

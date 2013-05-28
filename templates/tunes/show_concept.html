@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% load url from future %}
+
+{% block external %}
+{% endblock %}
+
+{% block title %}{{concept.title}}{% endblock %}
+
+{% block content %}
+
+<div class="post">
+    <h2 class="title">{{concept.title}}</h2>
+    <h3>{{concept.description}}</h3>  
+    <p>
+    <br/>
+    <a href="{% url 'concepts-edit' request.user.username concept.id %}">Edit</a> | <a href="{% url 'concepts-remove' request.user.username concept.id %}">Remove</a>
+</div>
+<div id="two-column">
+    <div id ="column1">
+        {% if concept.tunes.all.count %}
+        <h3><div class="title">Tunes:</div></h3>
+        <ul>
+            {% for tune in concept.tunes.all %}
+            <li>
+                <a href="{% url 'tunes-show' request.user.username tune.id %}">{{tune.title}}</a>
+            </li>
+            {% endfor %}
+            </br>
+        </ul>
+        {% endif %}
+    </div>
+    <div id="column2">
+        {% if concept.resource_set.all.count %}
+        <h3><div class="title">Resources:</div></h3>
+        <ul>
+            {% for resource in concept.resource_set.all %}
+            <li>
+                <a href="{% url 'resources-show' request.user.username resource.id %}">{{resource.title}}</a>
+            </li>
+            {% endfor %}
+            </br>
+        </ul>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+

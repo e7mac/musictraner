@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% load url from future %}
+
+{% block external %}
+
+<script src="http://musictraner.e7mac.com/static/js/metronome.js"></script>
+
+<script>
+    $(document).ready(function () {
+                      //spotify play button
+                      $.getJSON("http://ws.spotify.com/search/1/track.json?q={{tune.title}}",
+                                function(data) {
+                                for (track=0;track<data.tracks.length; track++) {
+                                    if (data.tracks[track].name == "{{tune.title}}") {
+                                        for (i=0;i<data.tracks[track].artists.length;i++) {
+                                            if (data.tracks[track].artists[i].name == "{{tune.artist}}") {
+                                            $("iframe").attr('src','https://embed.spotify.com/?uri='+data["tracks"][track]["href"]);
+                                            return;
+                                            }
+                                        }
+                                    }
+                                }
+                                });
+                      //metronome code
+                      beat = metronome (60,'http://musictraner.e7mac.com/static/beat.wav', context);
+                      beat.loadSound();
+                      });
+    </script>
+
+
+{% endblock %}
+
+{% block title %}{{tune.title}}{% endblock %}
+
+{% block content %}
+
+<div id="two-column">
+    <div id="column1">
+        <h2 class="title">{{tune.title}}</h2>
+        {% if tune.artist %}
+            <h3>by <span class="title">{{tune.artist}}</span></h3>
+        {% endif %}    
+        <p>
+            {% if start_date %}    
+                {{tune.start_date}} / </br>
+            {% endif %}
+
+            {% if tune.key %}
+                {{tune.key}} / 
+            {% endif %}
+
+            {% if tune.tempo > 0 %} /           
+                {{tune.tempo}}
+            {% endif %}
+
+            {% if tune.genre %}            
+                {{tune.genre}}
+            {% endif %}
+        </p>
+        <p>
+            <a href="{% url 'tunes-edit' request.user.username tune.id %}">Edit</a> | <a href="{% url 'tunes-remove' request.user.username tune.id %}">Remove</a>
+        </p>
+        <p>
+            {% if tune.concepts.all.count %}
+                <h3 class="title">Concepts:</h3>
+                <ul>
+                    {% for concept in tune.concepts.all %}
+                        <li>
+                            <a href="{% url 'concepts-show' request.user.username concept.id %}">{{concept.title}}</a>
+                        </li>
+                    {% endfor %}
+                </br>
+            {% endif %}
+        </p>
+    </div>
+    <div id="column2">
+        <iframe src="" width="300" height="80" frameborder="0" allowtransparency="true"></iframe>
+        <p>
+        <h3 class="title">Metronome</h3>
+        <br/>Tempo: <input type="text" disabled = "disabled" id="tempoInputTextBox" value="60" size="3"></input>
+        <input id ="tempoSlider" type="range" value="60" min="40" max="300" onchange="beat.setTempo(document.getElementById('tempoSlider').value); document.getElementById('tempoInputTextBox').value = document.getElementById('tempoSlider').value"></input>
+        <br/><button type="button" onclick="beat.toggleMetronome()">Start/Stop</button>
+        </p>
+        <p>
+            {% if tune.resource_set.all.count %}
+                <h3 class="title">Resources:</h3>
+                <ul>
+                    {% for resource in tune.resource_set.all %}
+                        <li>
+                            <a href="{% url 'resources-show' request.user.username resource.id %}">{{resource.title}}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </p>
+    </div>
+</div>
+<div class="post">
+    <p>           
+        {% if tune.sheet_music %}
+        <a href="{{tune.sheet_music}}">
+            {% if type == "img" %}
+                <img src="{{tune.sheet_music}}" width="95%">
+            {% elif type == "pdf" %}
+                <embed src="{{tune.sheet_music}}" width="95%" height="1024">
+            {% else %}
+                <a href="{{tune.sheet_music}}">Sheet Music</a>
+            {% endif %}
+        </a>
+        {% endif %}                    
+    </p>
+</div>
+
+{% endblock %}
+
+

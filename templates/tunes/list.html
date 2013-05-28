@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block external %}
+{% load staticfiles %}
+<link href="{% static "css/table.css" %}" rel="stylesheet" type="text/css" media="screen" />
+{% endblock %}
+
+{% block title %}{{request.user.username}}{% endblock %}
+
+{% block content %}
+<div class="post">
+    <h2 class="title">{{section}}s</h2>
+    <a href="add/">Add {{section}}</a>
+</div>
+    <div class="entry">
+        <div class="table-container">
+            <p>
+                {% load django_tables2 %}
+                {% render_table table %}
+            </p>
+        </div>
+    </div> 
+{% endblock %}

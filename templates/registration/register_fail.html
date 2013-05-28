@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Registration Failed{% endblock %}
+{% block head %}
+Registration Incomplete
+{% endblock %}
+{% block content %}
+The information you have entered contains errors.
+Here are your errors:
+
+{{ form.errors }}
+
+Please click
+<a href="/accounts/register/">back</a> to go back to edit or go back to the
+<a href="/">main page</a>.
+{% endblock %}

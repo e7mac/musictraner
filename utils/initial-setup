@@ -1,0 +1,7 @@
+mkdir ~/web/
+sudo apt-get install python2.7-dev python-setuptools python-pip git nginx python-mysqldb
+sudo pip install uwsgi django
+sudo mkdir /etc/uwsgi/
+sudo mkdir /etc/uwsgi/vassals/
+sudo rm /etc/nginx/sites-enabled/default
+ln -s /var/log/nginx ~/web/logs
