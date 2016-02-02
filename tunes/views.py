@@ -284,8 +284,8 @@ def upload_file(target,filename,file):
     os.remove(target+'/'+filename)
 
 def UploadMediaFileToS3(filePath):
-    awskey = 'AKIAJLLE55MLXAKM6ZWQ'
-    awssecret = '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'
+    awskey = ''
+    awssecret = ''
     conn = S3Connection(awskey, awssecret)
     bucket = conn.get_bucket('musictraner-media.e7mac.com')
     k = Key(bucket)
